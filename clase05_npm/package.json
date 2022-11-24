@@ -1,0 +1,19 @@
+{
+  "name": "clase05_npm",
+  "version": "1.0.0",
+  "description": "Esta es el script de la clase 05",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "clase",
+    "coderhouse",
+    "r2"
+  ],
+  "author": "R2",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.29.4"
+  }
+}
