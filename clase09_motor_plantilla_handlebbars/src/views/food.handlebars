@@ -1,0 +1,17 @@
+<div>
+    <h1>Saludos para {{ user.name }}. Que disfrutes la clase de Motores de Plantilla !!</h1>
+
+    {{#if isAdmin }}
+        {{#each foods}}
+            <div>
+                <p>{{this.name}}</p>
+                <p>{{this.price}}</p>
+                <br>
+            </div>
+        {{/each}}
+    {{else}}
+        <p>No tienes permisos</p>
+    {{/if}}
+
+</div>
+<script src="/js/index.js"></script>
