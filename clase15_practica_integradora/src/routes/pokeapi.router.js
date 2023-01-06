@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import pokeModel from '../models/pokemon.model.js'
+import pokeModel from '../dao/models/pokemon.model.js'
 
 
 const router = Router()
+
 
 router.get('/', async (req, res) => {
     const pokemons = await pokeModel.find()

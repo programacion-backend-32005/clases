@@ -4,11 +4,13 @@ import pokeRouter from './routes/pokeapi.router.js'
 import pokeViews from './routes/pokeviews.router.js'
 import handlebars from 'express-handlebars'
 import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
 
 const app = express()
 
 // Para traer la informacion de post como JSON
-app.use(express.json())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 // Configuramos el motor de plantillas
 app.engine('handlebars', handlebars.engine())
@@ -19,9 +21,7 @@ app.set('view engine', 'handlebars')
 app.use(express.static( __dirname + '/public'))
 
 // Configuramos las rutas 
-// Ruta de vistas
 app.use('/pokemon', pokeViews)
-// Ruta de API
 app.use('/api/pokemon', pokeRouter)
 
 app.get('/', (req, res) => { res.send('Work great!') })
