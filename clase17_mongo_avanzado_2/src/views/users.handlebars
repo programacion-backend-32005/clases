@@ -1,0 +1,38 @@
+{{#if isValid}}
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Genero</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each docs}}
+            <tr>
+                <td>{{this.first_name}}</td>
+                <td>{{this.last_name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.gender}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div>
+        {{#if hasPrevPage}}
+        <a href="{{prevLink}}">Anterior</a>
+        {{/if}}
+        {{ page }}
+        {{#if hasNextPage}}
+        <a href="{{nextLink}}">Siguiente</a>
+        {{/if}}
+    </div>
+
+</div>
+{{else}}
+<h1>No hay users</h1>
+
+{{/if}}
