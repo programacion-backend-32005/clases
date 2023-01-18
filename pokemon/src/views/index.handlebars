@@ -1,0 +1,24 @@
+<h1>Pokedex</h1>
+
+<form action="/pokemon">
+    Buscar: <input type="text" name="query" value="{{query}}"> <input type="submit" value="Buscar">
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Photo</th>
+            <th scope="col">Tipo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each result.docs}}
+        <tr>
+            <th scope="row">{{this.name}}</th>
+            <td><img width="30" src="{{this.photo}}"></td>
+            <td>{{this.type}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
