@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
     
     console.log(result);
 
-    res.render('index', {
+    res.render('pokedex/index', {
         result,
         query: filter
     })
@@ -44,7 +44,7 @@ router.get('/delete/:id', async (req, res) => {
 
 // Vista para crear pokemons
 router.get('/create', async (req, res) => {
-    res.render('create', {})
+    res.render('pokedex/create', {})
 })
 
 // Vista para crear pokemons
@@ -57,7 +57,7 @@ router.post('/create', async (req, res) => {
 
     console.log(pokemonGenerated);
 
-    res.redirect('/pokemon/' + pokemonGenerated.name)
+    res.redirect('pokedex/pokemon/' + pokemonGenerated.name)
 })
 
 
