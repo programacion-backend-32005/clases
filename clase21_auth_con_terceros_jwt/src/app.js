@@ -2,11 +2,13 @@ import express from 'express'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
-import sessionRouter from './routes/session.router.js'
 import passport from 'passport'
 import handlebars from 'express-handlebars'
 import initializePassport from './config/passport.config.js'
 import __dirname from './utils.js'
+
+import sessionRouter from './routes/session.router.js'
+import jwtRouter from './routes/jwt.router.js'
 
 
 const app = express()
@@ -50,6 +52,7 @@ app.get('/private', auth, (req, res) => {
     res.json(req.session.user)
 })
 app.use('/session', sessionRouter)
+app.use('/jwt', jwtRouter)
 
 
 mongoose.set('strictQuery')
