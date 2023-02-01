@@ -1,0 +1,16 @@
+AppName:Coderhouse32205
+
+http://localhost:8080/session/githubcallback
+
+Owned by: @arturoverbel
+App ID: 285824
+Client ID: Iv1.4d17c5c73c9b1ce1
+ef74929f461c767895fd21426fd5b4c6e14adbb7
+
+
+
+My Project 21800
+WebAppCoderhouse32205
+http://localhost:8080/session/googlecallback
+ClientID: 560369328245-gm7jqp1uhjbhm7bkiavha6q8q8r977f6.apps.googleusercontent.com
+Secret: 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
