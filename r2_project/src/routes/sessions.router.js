@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import credentials from '../config/credentials.js'
+import { COOKIE_NAME_JWT } from '../config/credentials.js'
 
 const router = Router()
 
@@ -9,7 +9,7 @@ router.get('/register', (req, res) => {
     res.render('sessions/register')
 })
 router.post('/register', passport.authenticate('register', { failureRedirect: '/session/error' }), (req, res) => {
-    res.redirect('/session/login')
+    res.redirect('/')
 })
 
 // LOGIN
@@ -17,11 +17,6 @@ router.get('/login', (req, res) => {
     res.render('sessions/login')
 })
 router.post('/login', passport.authenticate('login', { failureRedirect: '/session/error' }), (req, res) => {
-    // const user = await UserModel.findOne({ email: username })
-    // if (!user) {
-    //     console.log('User dont exits');
-    //     return done(null, user)
-    // }
     if (!req.user) {
         return res.status(400).render('errors/base', { error: 'Invalid credentials' })
     }
@@ -34,10 +29,8 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/sessio
         role: req.user.role,
         social: req.user.social
     }
-
-    console.log(req.user)
-
-    res.cookie(credentials.COOKIE_NAME_JWT, req.user.token).redirect('/products')
+    
+    res.cookie(COOKIE_NAME_JWT, req.user.token).redirect('/')
 })
 
 //LOGOUT
@@ -45,7 +38,7 @@ router.get('/logout', async (req, res) => {
     req.session.destroy(err => {
         if (err) return res.status(500).render('errors/base', { error: err })
 
-        res.redirect('/session/login')
+        res.clearCookie(COOKIE_NAME_JWT).redirect('/')
     })
 })
 

@@ -1,10 +1,12 @@
-<h1>Iniciar Session</h1>
 
 <form action="/session/login" method="post">
-    Email: <input type="text" name="email"><br>
-    Password: <input type="text" name="password"><br>
-
-    <br>
-
-    <input type="submit" value="Iniciar Sesion">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+  </div>
+  <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
 </form>

@@ -1,9 +1,9 @@
 import passport from "passport";
 import local from "passport-local"
 import jwt from 'passport-jwt'
-import UserModel from "../models/user.model.js";
-import { createHash, isValidPassword, generateToken } from '../utils.js'
-import credentials from '../config/credentials.js'
+import UserModel from "../dao/models/user.model.js";
+import { createHash, isValidPassword, generateToken, extractCookie } from '../utils.js'
+import { JWT_PRIVATE_KEY } from '../config/credentials.js'
 
 const LocalStrategy = local.Strategy
 const JWTStrategy = jwt.Strategy
@@ -47,14 +47,10 @@ const initializePassport = () => {
                 return done(null, user)
             }
 
-            console.log("asd");
-
             if(!isValidPassword(user, password)) return done(null, false)
-            console.log("TO GENERATE...");
+            
             const token = generateToken(user)
-            console.log("TOKEN GENERATED ");
             user.token = token
-            console.log(user);
 
             return done(null, user)
         } catch (error) {
@@ -63,11 +59,9 @@ const initializePassport = () => {
     }))
 
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromExtractors([req => (req && req.cookies) ? req.cookies[credentials.COOKIE_NAME_JWT] : null]),
-        secretOrKey: credentials.JWT_PRIVATE_KEY
+        jwtFromRequest: ExtractJWT.fromExtractors([extractCookie]),
+        secretOrKey: JWT_PRIVATE_KEY
     }, async (jwt_payload, done) => {
-        console.log("PASSPORT ", jwt_payload);
-
         done(null, jwt_payload)
     }))
 

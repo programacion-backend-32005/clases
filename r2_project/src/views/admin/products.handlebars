@@ -1,0 +1,53 @@
+<h1>Products</h1>
+<hr>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item"><a class="page-link" href="#">10</a></li>
+        <li class="page-item"><a class="page-link" href="#">15</a></li>
+    </ul>
+</nav>
+<table id="productsTable" class="table table-striped">
+    <thead>
+        <tr>
+            <td scope="col"><strong>Producto</strong></td>
+            <td scope="col"><strong>Descripción</strong></td>
+            <td scope="col"><strong>Precio</strong></td>
+            <td scope="col"><strong>Stock</strong></td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each data.docs}}
+        <tr>
+            <td scope="row">{{this.title}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.stock}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<nav aria-label="...">
+    <ul class="pagination">
+
+        <li class="page-item {{#if data.hasPrevPage}}{{else}}disabled{{/if}}">
+            <a class="page-link" href="/products?page={{data.prevPage}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+
+        {{#each front.pagination}}
+            <li class="page-item {{#if this.active}}active{{/if}}"><a class="page-link" href="/products?page={{this.page}}">{{this.page}}</a></li>
+        {{/each}}
+        
+        <li class="page-item {{#if data.hasNextPage}}{{else}}disabled{{/if}}">
+            <a class="page-link" href="/products?page={{data.nextPage}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div id="moving"></div>

@@ -3,7 +3,7 @@ import { dirname } from 'path'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
-import credentialsUtils from './config/credentials.js'
+import {JWT_PRIVATE_KEY, COOKIE_NAME_JWT } from './config/credentials.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -17,8 +17,7 @@ export const isValidPassword = (user, password) => {
 }
 
 export const generateToken = user => {
-    const token = jwt.sign({user}, credentialsUtils.JWT_PRIVATE_KEY, {expiresIn: '24h'})
-    console.log(token);
+    const token = jwt.sign({user}, JWT_PRIVATE_KEY, {expiresIn: '24h'})
     return token
 }
 
@@ -26,7 +25,7 @@ export const authToken = (req, res, next) => {
     const authToken = req.cookies.coderCookieToken
 
     if(!authToken) return res.status(401).render('errors/base', {error: 'No aAuth'})
-    jwt.verify(token, credentialsUtils.JWT_PRIVATE_KEY, (error, credentials) => {
+    jwt.verify(token, JWT_PRIVATE_KEY, (error, credentials) => {
         if(error) return res.status(403).render('errors/base', {error: 'No authorized'})
         req.user = credentials.user
         next()
@@ -37,8 +36,6 @@ export const authToken = (req, res, next) => {
 export const passportCall = (strategy) => {
     return async (req, res, next) => {
         passport.authenticate(strategy, function(err, user, info) {
-            console.log('Passport CALL', err, user, info);
-
             if(err) return next(err)
             if(!user) return res.status(401).render('errors/base', {error: info.messages ? info.messages : info.toString()})
 
@@ -46,6 +43,10 @@ export const passportCall = (strategy) => {
             next()
         })(req, res, next)
     }
+}
+
+export const extractCookie = req => {
+    return (req && req.cookies) ? req.cookies[COOKIE_NAME_JWT] : null
 }
 
 export default __dirname
