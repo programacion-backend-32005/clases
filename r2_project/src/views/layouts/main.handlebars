@@ -8,7 +8,11 @@
 </head>
 <body>
     <div>
-        {{ user.first_name }}
+        {{#if user }}
+            {{ user.first_name }} <small>({{ user.role}}, {{user.social}})</small>
+            <a href="/session/logout">Logout</a>
+
+        {{/if}}
     </div>
     {{{body}}}
 </body>
