@@ -11,6 +11,7 @@ const schema = new mongoose.Schema({
         ref: 'Users'
     },
     products: [],
+    status: String,
     totalPrice: Number
 })
 
