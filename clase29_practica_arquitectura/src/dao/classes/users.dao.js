@@ -20,4 +20,10 @@ export default class User {
         return result
     }
 
+    updateUser = async(id, user) => {
+        const result = await UsersModel.updateOne({_id: id}, {$set: user})
+
+        return result
+    }
+
 }
