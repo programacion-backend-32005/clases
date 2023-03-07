@@ -1,7 +1,12 @@
 import passport from "passport";
 import local from "passport-local"
 import jwt from 'passport-jwt'
+
+// TODO: Change Users
 import UserModel from "../dao/models/user.model.js";
+import { UserService } from "../repository/index.js";
+
+
 import { createHash, isValidPassword, generateToken, extractCookie } from '../utils.js'
 import { JWT_PRIVATE_KEY } from '../config/credentials.js'
 

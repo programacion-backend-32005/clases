@@ -8,6 +8,6 @@ const messagesSchema = new mongoose.Schema({
 })
 
 mongoose.set("strictQuery", false)
-const messagesModel = mongoose.model(messagesCollection, messagesSchema)
+const MessagesModel = mongoose.model(messagesCollection, messagesSchema)
 
-export default messagesModel
+export default MessagesModel

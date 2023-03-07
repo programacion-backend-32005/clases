@@ -7,13 +7,13 @@ import productViewsRouter from "./routes/products.views.router.js"
 import cartRouter from "./routes/cart.router.js"
 import chatRouter from "./routes/chat.router.js"
 import sessionRouter from "./routes/sessions.router.js"
-import messagesModel from "./dao/models/messages.model.js";
+import { MessageService } from "./repository/index.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import initializePassport from "./config/passport.config.js";
-import {MONGO_URI, MONGO_DB_NAME, COOKIE_SECRET} from "./config/credentials.js"
+import config from "./config/config.js";
 
 import __dirname from "./utils.js"
 import { passportCall } from "./utils.js"
@@ -23,14 +23,14 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(cookieParser(COOKIE_SECRET))
+app.use(cookieParser(config.cookieSecret))
 app.use(express.static(__dirname + "/public"))
 app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: MONGO_URI,
+        mongoUrl: config.mongoURI,
         mongoOptions: {
             useNewUrlParser: true,
             useUnifiedTopology: true
@@ -46,8 +46,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 
-mongoose.connect(MONGO_URI, {
-    dbName: MONGO_DB_NAME
+mongoose.connect(config.mongoURI, {
+    dbName: config.mongoDbName
 }, (error) => {
     if(error){
         console.log("DB No conected...")
@@ -77,8 +77,8 @@ mongoose.connect(MONGO_URI, {
     socketServer.on("connection", socket => {
         console.log("New client connected")
         socket.on("message", async data => {
-        await messagesModel.create(data)
-        let messages = await messagesModel.find().lean().exec()
+        await MessageService.create(data)
+        let messages = await MessageService.get()
         socketServer.emit("logs", messages)
         })
     })

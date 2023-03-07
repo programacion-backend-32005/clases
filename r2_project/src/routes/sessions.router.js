@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { COOKIE_NAME_JWT } from '../config/credentials.js'
+import config from "../config/config.js";
 
 const router = Router()
 
@@ -30,7 +30,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/sessio
         social: req.user.social
     }
     
-    res.cookie(COOKIE_NAME_JWT, req.user.token).redirect('/')
+    res.cookie(config.jwtCookieName, req.user.token).redirect('/')
 })
 
 //LOGOUT
@@ -38,7 +38,7 @@ router.get('/logout', async (req, res) => {
     req.session.destroy(err => {
         if (err) return res.status(500).render('errors/base', { error: err })
 
-        res.clearCookie(COOKIE_NAME_JWT).redirect('/')
+        res.clearCookie(config.jwtCookieName).redirect('/')
     })
 })
 
