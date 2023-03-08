@@ -2,13 +2,10 @@ import passport from "passport";
 import local from "passport-local"
 import jwt from 'passport-jwt'
 
-// TODO: Change Users
-import UserModel from "../dao/models/user.model.js";
 import { UserService } from "../repository/index.js";
 
-
 import { createHash, isValidPassword, generateToken, extractCookie } from '../utils.js'
-import { JWT_PRIVATE_KEY } from '../config/credentials.js'
+import config from "../config/config.js";
 
 const LocalStrategy = local.Strategy
 const JWTStrategy = jwt.Strategy
@@ -21,13 +18,13 @@ const initializePassport = () => {
         usernameField: 'email'
     }, async (req, username, password, done) => {
         try {
-            const user = await UserModel.findOne({email: username})
+            const user = await UserService.getOneByEmail(username)
             if(user) {
                 console.log('User already exits');
                 return (done, false)
             }
 
-            const result = await UserModel.create({
+            const result = await UserService.create({
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
                 email: req.body.email,
@@ -46,7 +43,7 @@ const initializePassport = () => {
         usernameField: 'email'
     }, async (username, password, done) => {
         try {
-            const user = await UserModel.findOne({email: username}).lean().exec()
+            const user = await UserService.getOneByEmail(username)
             if(!user) {
                 console.log('User dont exits');
                 return done(null, user)
@@ -65,16 +62,16 @@ const initializePassport = () => {
 
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([extractCookie]),
-        secretOrKey: JWT_PRIVATE_KEY
+        secretOrKey: config.jwtPrivateKey
     }, async (jwt_payload, done) => {
         done(null, jwt_payload)
     }))
 
     passport.serializeUser((user, done) => {
-        done(null, user._id)
+        done(null, user.id)
     })
     passport.deserializeUser(async (id, done) => {
-        const user = await UserModel.findById(id)
+        const user = await UserService.getOneByID(id)
         done(null, user)
     })
 }

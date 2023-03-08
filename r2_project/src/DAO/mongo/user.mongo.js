@@ -13,4 +13,12 @@ export default class User {
         return true
     }
 
+    getOneByID = async(id) => {
+        return await UserModel.findById(id)
+    }
+
+    getOneByEmail = async(email) => {
+        return await UserModel.findOne({ email }).lean().exec()
+    }
+
 }

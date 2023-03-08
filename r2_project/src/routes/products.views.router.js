@@ -14,8 +14,7 @@ router.get('/', async(req, res) => {
         lean: true
     }
 
-    // TODO Para otro after !!
-    const data = await ProductService.get() //ProductModel.paginate({}, options)
+    const data = await ProductService.getPaginate({}, options)
     const user = req.session.user
     console.log(data)
 

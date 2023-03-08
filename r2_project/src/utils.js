@@ -3,7 +3,7 @@ import { dirname } from 'path'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
-import {JWT_PRIVATE_KEY, COOKIE_NAME_JWT } from './config/credentials.js'
+import config from './config/config.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -17,7 +17,7 @@ export const isValidPassword = (user, password) => {
 }
 
 export const generateToken = user => {
-    const token = jwt.sign({user}, JWT_PRIVATE_KEY, {expiresIn: '24h'})
+    const token = jwt.sign({user}, config.jwtPrivateKey, {expiresIn: '24h'})
     return token
 }
 
@@ -25,7 +25,7 @@ export const authToken = (req, res, next) => {
     const authToken = req.cookies.coderCookieToken
 
     if(!authToken) return res.status(401).render('errors/base', {error: 'No aAuth'})
-    jwt.verify(token, JWT_PRIVATE_KEY, (error, credentials) => {
+    jwt.verify(token, config.jwtPrivateKey, (error, credentials) => {
         if(error) return res.status(403).render('errors/base', {error: 'No authorized'})
         req.user = credentials.user
         next()
@@ -46,7 +46,7 @@ export const passportCall = (strategy) => {
 }
 
 export const extractCookie = req => {
-    return (req && req.cookies) ? req.cookies[COOKIE_NAME_JWT] : null
+    return (req && req.cookies) ? req.cookies[config.jwtCookieName] : null
 }
 
 export default __dirname

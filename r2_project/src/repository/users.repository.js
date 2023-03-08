@@ -17,4 +17,12 @@ export default class UserRepository {
         return result
     }
 
+    getOneByID = async(id) => {
+        return await this.dao.getOneByID(id)
+    }
+
+    getOneByEmail = async(email) => {
+        return await this.dao.getOneByEmail(email)
+    }
+
 }
