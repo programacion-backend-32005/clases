@@ -1,0 +1,10 @@
+{
+  "name": "clase33_versiones_paquetes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "clase33": "^1.0.0",
+    "express": "^4.18.2"
+  }
+}
