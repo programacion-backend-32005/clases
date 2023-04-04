@@ -12,25 +12,28 @@ router.get('/', (req, res) => {
     res.send({status: "success", payload: users})
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
 
     const {first_name, last_name, email, age} = req.body
+    try{
+        if(!first_name || !last_name || !email) {
+            await CustomError.createError({
+                name: "User creation error",
+                cause: generateUserErrorInfo({first_name, last_name, email, age}),
+                message: "Error trying to create user",
+                code: EErrors.INVALID_TYPES_ERROR
+            })
+        }
 
-    if(!first_name || !last_name || !email) {
-        CustomError.createError({
-            name: "User creation error",
-            cause: generateUserErrorInfo({first_name, last_name, email, age}),
-            message: "Error trying to create user",
-            code: EErrors.INVALID_TYPES_ERROR
-        })
+
+        const user = {first_name, last_name, email, age}
+
+        users.push(user)
+
+        res.send({status: "success", payload: user})
+    } catch(e) {
+        console.log('BBBBB', e)
     }
-
-
-    const user = {first_name, last_name, email, age}
-
-    users.push(user)
-
-    res.send({status: "success", payload: user})
 })
 
 export default router

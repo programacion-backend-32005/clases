@@ -1,0 +1,101 @@
+paths:
+  /api/users:
+    get:
+      summary: Obtiene todos los usuarios
+      tags:
+       - Users
+      responses:
+        "200":
+          description: Los usuarios fueron devuelvos satisfactoriamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/User'
+        "500":
+          description: Error interno del server. Query defectuosa o un fallo a la conexion a la DB
+  /api/users/{uid}:
+    get:
+      summary: Obtiene un user
+      tags:
+        - Users
+      parameters:
+      - name: uid
+        in: path
+        required: true
+        description: ID del usuario que se solicita
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Usuario Encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
+    put:
+      summary: actualiza un user a partir del ID
+      tags:
+        - Users
+      parameters:
+      - name: uid
+        in: path
+        required: true
+        description: ID del usuario que se solicita
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateUser'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID auto generado en mongo
+        first_name:
+          type: String
+          description: Primer nombre
+        last_name:
+          type: String
+          description: Apellido
+        email:
+          type: String
+          description: Email del usuario
+        password:
+          type: String
+          description: Password hasheado del user
+      example:
+        _id: ObjectId("63d05a63e763debe04cc8dfe")
+        first_name: German
+        last_name: Rodas
+        email: german@gmail.com
+        password: "$2b$10$Cf.uErjQ/lEzypTNfyE1IuFGxVXSRqGzjFWBYwL9KLK4Fe29kvu.e"
+  requestBodies:
+    updateUser:
+      type: object
+      properties:
+        first_name:
+          type: String
+          description: Primer nombre
+        last_name:
+          type: String
+          description: Apellido
+        email:
+          type: String
+          description: Email del usuario
+        password:
+          type: String
+          description: Password hasheado del user
+      example:
+        first_name: German
+        last_name: Rodas
+        email: german@gmail.com
+        password: "$2b$10$Cf.uErjQ/lEzypTNfyE1IuFGxVXSRqGzjFWBYwL9KLK4Fe29kvu.e"
+tags: []
