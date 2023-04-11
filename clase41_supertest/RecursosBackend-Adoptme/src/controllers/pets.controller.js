@@ -37,7 +37,7 @@ const createPetWithImage = async(req,res) =>{
         name,
         specie,
         birthDate,
-        image:`${__dirname}/../public/img/${file.filename}`
+        image:`${__dirname}/../public/img/bird.jpeg`
     });
     console.log(pet);
     const result = await petsService.create(pet);
