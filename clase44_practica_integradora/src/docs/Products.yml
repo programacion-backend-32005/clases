@@ -1,0 +1,7 @@
+paths:
+  /api/products:
+    get:
+      summary: 'Devuelve productos'
+      responses:
+        "200":
+          description: "Los devolvio correctamente"
